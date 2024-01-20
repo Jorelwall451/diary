@@ -1,15 +1,18 @@
 package com.jorel.diary.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
 public final class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private final UUID id;
     @NotNull(message = "The name cannot be null.")
     private String name;
     @Email(message = "The email have a specify format.")
@@ -19,6 +22,14 @@ public final class User {
     private int age;
     private final LocalDateTime createdAt = LocalDateTime.now();
     private LocalDateTime updatedAt;
+
+    public User(){
+        this.id = UUID.randomUUID();
+    }
+
+    public UUID getId(){
+        return id;
+    }
 
     public String getName() {
         return name;
