@@ -1,0 +1,33 @@
+version: '3.0'
+
+services:
+  app:
+    depends_on: [mysql]
+    container_name: diary_app
+    build: .
+    env_file: .env
+    ports:
+      - "8080:8080"
+    networks:
+      - diary_network
+
+  mysql:
+    container_name: mysql_db
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: diary
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: 34202
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - diary_network
+
+volumes:
+  mysql_data:
+
+networks:
+  diary_network:
+    driver: bridge
